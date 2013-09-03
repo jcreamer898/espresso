@@ -18,16 +18,30 @@
 
     espresso.processElement = function( el ) {
         var $el = $( el ),
-            btn = $("<button />", {
-                text: "Convert",
-                "class": "convert-btn"
-            }),
+            $btn = $("<button />", {
+                text: "JavaScript",
+                "class": "convert-btn",
+                "style": "position: absolute",
+            }).hide(),
             content;
 
-        btn.data( "el", $el );
+        $btn.data( "el", $el );
 
         if ( content = espresso.convert($el) ) {
-            $el.before( btn );
+            $el.before( $btn );
+
+            $el.mouseover(function(e) {
+                $btn.show();
+            }).mouseleave(function(e) {
+                if (e.relatedTarget && e.relatedTarget !== $btn[0]) { 
+                    $btn.hide();
+                }
+            });
+
+            $btn.css({
+                top: $el.position().top + 5,
+                left: $el.position().left + $el.outerWidth() - $btn.outerWidth() - 5
+            });
 
             if ( !$el.data("processed") ) {
                 $el.data( "contentOrig", $el.text() );
@@ -37,12 +51,14 @@
                     "processed": true
                 });
 
-                btn.on('click', function() {
+                $btn.on('click', function() {
                     $el.text( $el.data("isConverted") ? $el.data("contentOrig") : $el.data("contentConverted") );
                     $el.data("isConverted", !$el.data("isConverted"))
                         .removeClass("javascript coffeescript")
                         .addClass(!$el.data("isConverted") ? "coffeescript" : "javascript");
                     
+                    $(this).text(!$el.data("isConverted") ? "JavaScript" : "Coffee");
+
                     hljs.highlightBlock($el[0]);
                 });
             }
