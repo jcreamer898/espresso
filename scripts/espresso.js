@@ -4,9 +4,6 @@
     };
 
     espresso._setupEvents = function() {
-        // $( document ).on( "click", ".convert-btn", function() {
-        //     espresso.convert( $(this).data("el") );
-        // });
     };
 
     espresso.parse = function() {
@@ -88,6 +85,4 @@
     // espresso.register( "js2coffee", Js2coffee.build );
 
     espresso.parse();
-
-    console.log(CoffeeScript);
 }());
