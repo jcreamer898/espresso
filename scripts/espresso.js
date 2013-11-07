@@ -71,7 +71,7 @@
             content = converter($el.text());
         }
         catch(e) {
-            console.warn('code is not CoffeeScript');
+            // console.warn('code is not CoffeeScript');
         }
 
         return content;
